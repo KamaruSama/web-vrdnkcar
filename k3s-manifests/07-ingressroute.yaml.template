@@ -1,0 +1,42 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: web-vrdnkcar-https
+  namespace: web-vrdnkcar
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`${DOMAIN}`) # แก้ domain ตรงนี้ หรือใช้ envsubst
+      kind: Rule
+      services:
+        - name: web-vrdnkcar-app
+          port: 80
+  tls: {}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: web-vrdnkcar-http
+  namespace: web-vrdnkcar
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`${DOMAIN}`) # แก้ domain ตรงนี้ หรือใช้ envsubst
+      kind: Rule
+      services:
+        - name: web-vrdnkcar-app
+          port: 80
+      middlewares:
+        - name: redirect-to-https
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-to-https
+  namespace: web-vrdnkcar
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true

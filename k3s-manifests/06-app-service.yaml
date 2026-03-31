@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-vrdnkcar-app
+  namespace: web-vrdnkcar
+spec:
+  selector:
+    app: web-vrdnkcar-app
+  ports:
+  - port: 80
+    targetPort: 3000
+    protocol: TCP

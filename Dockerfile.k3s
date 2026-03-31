@@ -1,0 +1,28 @@
+FROM node:20-alpine AS base
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+# Lock PostgreSQL client เวอร์ชัน 17 ให้ตรงกับ DB server
+RUN apk add --no-cache openssl postgresql17-client
+
+# Copy standalone build output
+COPY .next/standalone ./
+COPY .next/static ./.next/static
+COPY public ./public
+
+# Create uploads directory
+RUN mkdir -p ./public/uploads/originals && \
+    chown -R node:node /app
+
+USER node
+
+EXPOSE 3000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://127.0.0.1:3000/api/health || exit 1
+
+CMD ["node", "server.js"]

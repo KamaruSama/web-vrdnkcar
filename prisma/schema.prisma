@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                  Int      @id @default(autoincrement())
+  username            String   @unique @db.VarChar(100)
+  name                String   @db.VarChar(255)
+  position            String?  @db.VarChar(255)
+  role                String   @default("user") @db.VarChar(50)
+  profilePicture      String?  @map("profile_picture") @db.VarChar(255)
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @default(now()) @map("updated_at")
+  showInRequesterList Int      @default(1) @map("show_in_requester_list") @db.SmallInt
+
+  bookings     Booking[]     @relation("requester")
+  activityLogs ActivityLog[]
+  sessions     Session[]
+
+  @@map("users")
+}
+
+model Car {
+  id           Int      @id @default(autoincrement())
+  licensePlate String   @unique @map("license_plate") @db.VarChar(20)
+  photoUrl     String?  @map("photo_url") @db.VarChar(255)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @default(now()) @map("updated_at")
+
+  bookings Booking[]
+
+  @@map("cars")
+}
+
+model Driver {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  photoUrl  String?  @map("photo_url") @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  bookings Booking[]
+
+  @@map("drivers")
+}
+
+model Booking {
+  id             Int       @id @default(autoincrement())
+  bookingNumber  String    @unique @map("booking_number") @db.VarChar(20)
+  submissionDate DateTime  @map("submission_date") @db.Date
+  requesterId    Int       @map("requester_id")
+  destination    String    @db.VarChar(255)
+  purpose        String    @db.VarChar(255)
+  travelers      Int
+  departureDate  DateTime  @map("departure_date") @db.Date
+  departureTime  DateTime  @map("departure_time") @db.Time()
+  returnDate     DateTime  @map("return_date") @db.Date
+  returnTime     DateTime  @map("return_time") @db.Time()
+  carId          Int?      @map("car_id")
+  driverId       Int?      @map("driver_id")
+  notes          String?
+  approvalStatus String    @default("pending") @map("approval_status") @db.VarChar(50)
+  approvalNotes  String?   @map("approval_notes")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @default(now()) @map("updated_at")
+  evaluatedAt    DateTime? @map("evaluated_at")
+
+  requester User    @relation("requester", fields: [requesterId], references: [id])
+  car       Car?    @relation(fields: [carId], references: [id])
+  driver    Driver? @relation(fields: [driverId], references: [id])
+  surveys   Survey[]
+
+  @@index([approvalStatus], map: "idx_bookings_approval_status")
+  @@index([createdAt(sort: Desc)], map: "idx_bookings_created_at")
+  @@index([departureDate], map: "idx_bookings_departure_date")
+  @@map("bookings")
+}
+
+model Survey {
+  id                   Int      @id @default(autoincrement())
+  bookingId            Int      @map("booking_id")
+  drivingRules         Int      @map("driving_rules")
+  appropriateSpeed     Int      @map("appropriate_speed")
+  politeDriving        Int      @map("polite_driving")
+  servicePoliteness    Int      @map("service_politeness")
+  missionUnderstanding Int      @map("mission_understanding")
+  punctuality          Int
+  travelPlanning       Int      @map("travel_planning")
+  carSelection         Int      @map("car_selection")
+  carReadiness         Int      @map("car_readiness")
+  carCleanliness       Int      @map("car_cleanliness")
+  isSelfDriving        Int      @default(0) @map("is_self_driving") @db.SmallInt
+  suggestions          String?
+  createdAt            DateTime @default(now()) @map("created_at")
+  evaluatedAt          DateTime @default(now()) @map("evaluated_at")
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+
+  @@map("surveys")
+}
+
+model ActivityLog {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  action    String   @db.VarChar(255)
+  details   String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("activity_logs")
+}
+
+model SystemConfig {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(255)
+  value     String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  @@map("system_config")
+}
+
+model Session {
+  id        String   @id @db.VarChar(36)
+  userId    Int      @map("user_id")
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "idx_sessions_user_id")
+  @@map("sessions")
+}

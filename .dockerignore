@@ -1,0 +1,15 @@
+node_modules
+.next
+!.next/standalone
+!.next/static
+.git
+*.md
+.env*
+k3s-manifests
+backup-auto
+*.sql
+*.dump
+src/generated
+.playwright-mcp
+mobile-*.png
+desktop-*.png

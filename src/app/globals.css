@@ -1,0 +1,512 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
+
+@media print {
+  header,
+  nav,
+  .navbar,
+  .top-bar,
+  .print-hidden {
+    display: none !important;
+  }
+}
+
+@media print {
+  footer, 
+  .footer,
+  .site-footer,
+  [class*="footer"] {
+    display: none !important;
+  }
+}
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  overflow-x: clip;
+}
+
+select.pill-select {
+  padding: 4px 28px 4px 12px !important;
+  font-size: 12px !important;
+  line-height: 18px !important;
+  height: 26px !important;
+  min-width: 140px !important;
+  background-image: none !important;
+  min-height: unset !important;
+}
+
+:root {
+  --foreground-rgb: 15, 23, 42;
+  --background-rgb: 248, 250, 252;
+}
+
+/* Improved dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 248, 250, 252;
+    --background-rgb: 15, 23, 42;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  font-family: 'Prompt', sans-serif;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Custom component styles */
+@layer components {
+  .btn-primary {
+    @apply bg-primary-600 text-white hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 
+           px-4 py-2 rounded-lg font-medium transition duration-200 
+           shadow-sm hover:shadow-md active:scale-[0.98];
+  }
+  
+  .btn-secondary {
+    @apply bg-slate-100 text-slate-800 hover:bg-slate-200 focus:ring-4 focus:ring-slate-300
+           px-4 py-2 rounded-lg font-medium transition duration-200
+           shadow-sm hover:shadow-md active:scale-[0.98];
+  }
+  
+  .btn-accent {
+    @apply bg-accent-600 text-white hover:bg-accent-700 focus:ring-4 focus:ring-accent-300
+           px-4 py-2 rounded-lg font-medium transition duration-200
+           shadow-sm hover:shadow-md active:scale-[0.98];
+  }
+  
+  .card {
+    @apply bg-white dark:bg-slate-800 rounded-xl shadow-sm hover:shadow-md 
+           transition duration-200 border border-slate-200 dark:border-slate-700;
+  }
+  
+  .input-field {
+    @apply w-full p-3 border border-slate-300 dark:border-slate-600 rounded-lg 
+           focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent
+           transition duration-200 bg-white dark:bg-slate-800;
+  }
+  
+  .label {
+    @apply block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1;
+  }
+  
+  .error-text {
+    @apply text-red-500 text-sm mt-1;
+  }
+
+  /* Status colors */
+  .status-success {
+    @apply bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200;
+  }
+  
+  .status-error {
+    @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200;
+  }
+  
+  .status-warning {
+    @apply bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200;
+  }
+  
+  .status-info {
+    @apply bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200;
+  }
+  
+  /* Badge styles */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .badge-success {
+    @apply bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200;
+  }
+  
+  .badge-error {
+    @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200;
+  }
+  
+  .badge-warning {
+    @apply bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200;
+  }
+  
+  .badge-info {
+    @apply bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200;
+  }
+  
+  /* Page transitions */
+  .page-enter {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+  
+  /* Container with better mobile padding */
+  .container-custom {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8;
+  }
+}
+
+/* Improved accessibility for elderly users */
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    scroll-behavior: smooth;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.slide-up {
+  animation: slideInUp 0.5s ease-out forwards;
+}
+
+.pulse-animation {
+  animation: pulse 2s infinite;
+}
+
+/* Improved form elements for mobile */
+@media (max-width: 640px) {
+  input, select, textarea {
+    @apply text-base; /* Larger text on mobile */
+  }
+  
+  button {
+    @apply min-h-[44px]; /* Minimum touch target size */
+  }
+}
+
+/* Print styles - fix for the print page */
+@media print {
+  body {
+    font-family: 'Prompt', 'TH Sarabun New', sans-serif !important;
+    font-size: 14pt !important;
+    line-height: 1.5 !important;
+    background: #fff !important;
+    color: #000 !important;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* ปรับขนาด DatePicker ให้เต็มหน้าจอมือถือ */
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker__input-container {
+  width: 100%;
+}
+
+.react-datepicker__input-container input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid #d1d5db;
+}
+
+/* ปรับขนาด DatePicker dropdown ให้เหมาะสมบนมือถือ */
+.react-datepicker {
+  font-size: 0.9rem !important;
+  border-radius: 0.5rem !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+.react-datepicker__header {
+  background-color: #f3f4f6 !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  border-top-left-radius: 0.5rem !important;
+  border-top-right-radius: 0.5rem !important;
+  padding-top: 10px !important;
+}
+
+.react-datepicker__day-name, 
+.react-datepicker__day, 
+.react-datepicker__time-name {
+  width: 2rem !important;
+  line-height: 2rem !important;
+  margin: 0.25rem !important;
+}
+
+.react-datepicker__day--selected, 
+.react-datepicker__day--in-selecting-range, 
+.react-datepicker__day--in-range, 
+.react-datepicker__month-text--selected, 
+.react-datepicker__month-text--in-selecting-range, 
+.react-datepicker__month-text--in-range, 
+.react-datepicker__quarter-text--selected, 
+.react-datepicker__quarter-text--in-selecting-range, 
+.react-datepicker__quarter-text--in-range, 
+.react-datepicker__year-text--selected, 
+.react-datepicker__year-text--in-selecting-range, 
+.react-datepicker__year-text--in-range {
+  background-color: #4f46e5 !important;
+  color: white !important;
+}
+
+.react-datepicker__day:hover, 
+.react-datepicker__month-text:hover, 
+.react-datepicker__quarter-text:hover, 
+.react-datepicker__year-text:hover {
+  background-color: #e0e7ff !important;
+}
+
+/* ปรับแต่ง Time picker */
+.react-datepicker__time-container {
+  width: 100% !important;
+  border-left: 1px solid #e5e7eb !important;
+}
+
+.react-datepicker__time-container .react-datepicker__time {
+  background-color: white !important;
+}
+
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box {
+  width: 100% !important;
+}
+
+.react-datepicker__time-list-item--selected {
+  background-color: #4f46e5 !important;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 640px) {
+  .react-datepicker-popper {
+    width: calc(100% - 2rem) !important;
+    max-width: 20rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  
+  .react-datepicker__month-container {
+    float: none !important;
+    width: 100% !important;
+  }
+  
+  .react-datepicker__day-name, 
+  .react-datepicker__day, 
+  .react-datepicker__time-name {
+    width: 1.8rem !important;
+    line-height: 1.8rem !important;
+    margin: 0.2rem !important;
+  }
+  
+  /* ปรับแต่งเพิ่มเติมเพื่อให้มือถือแสดงผลได้ดีขึ้น */
+  .modal-mobile-full {
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+  }
+  
+  /* ปรับขนาดฟอนต์ให้อ่านได้ง่ายบนมือถือ */
+  label, .text-sm {
+    font-size: 0.925rem !important;
+  }
+  
+  /* เพิ่ม padding ให้กับฟอร์มบนมือถือ */
+  .form-mobile-padding {
+    padding: 1rem !important;
+  }
+  
+  /* ทำให้ปุ่มใหญ่ขึ้นบนมือถือเพื่อกดได้ง่าย */
+  button.mobile-friendly {
+    min-height: 48px !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+/* เพิ่มสไตล์ใหม่สำหรับ DatePicker บนมือถือในโหมด Dark */
+.react-datepicker__input-container input {
+  @apply w-full px-3 py-3 border border-gray-300 dark:border-gray-600 rounded-md 
+         text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800;
+}
+
+.react-datepicker {
+  @apply font-sans text-gray-900 dark:text-white bg-white dark:bg-gray-800 
+         border border-gray-200 dark:border-gray-700 shadow-lg !important;
+}
+
+.react-datepicker__header {
+  @apply bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600 !important;
+}
+
+.react-datepicker__day-name, 
+.react-datepicker__day, 
+.react-datepicker__time-name {
+  @apply text-gray-800 dark:text-gray-200 !important;
+}
+
+.react-datepicker__day:hover, 
+.react-datepicker__month-text:hover, 
+.react-datepicker__quarter-text:hover, 
+.react-datepicker__year-text:hover {
+  @apply bg-gray-100 dark:bg-gray-600 !important;
+}
+
+.react-datepicker__day--selected, 
+.react-datepicker__day--in-selecting-range, 
+.react-datepicker__day--in-range, 
+.react-datepicker__month-text--selected,
+.react-datepicker__time-list-item--selected {
+  @apply bg-blue-600 text-white dark:bg-blue-500 !important;
+}
+
+/* ปรับปรุงการแสดง TimePicker ในโหมด Dark */
+.react-datepicker__time-container {
+  @apply border-l border-gray-300 dark:border-gray-600 !important;
+}
+
+.react-datepicker__time-container .react-datepicker__time {
+  @apply bg-white dark:bg-gray-800 !important;
+}
+
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item {
+  @apply text-gray-900 dark:text-gray-100 !important;
+}
+
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item:hover {
+  @apply bg-gray-100 dark:bg-gray-700 !important;
+}
+
+/* ปรับปรุงสไตล์ปุ่มที่ให้ใช้ง่ายบนมือถือ */
+button.mobile-friendly {
+  @apply min-h-[48px] px-4 text-center flex items-center justify-center;
+}
+
+/* ปรับขนาด input ให้สามารถกดได้ง่ายบนมือถือ */
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  @apply py-3 text-base min-h-[48px];
+}
+
+/* ปรับปรุงการแสดงผลบนมือถือในแนวตั้ง */
+@media (max-width: 640px) {
+  .form-mobile-padding {
+    @apply px-3 py-4;
+  }
+  
+  /* เพิ่มขนาดฟอนต์และช่องว่างให้เหมาะกับมือถือ */
+  label {
+    @apply text-base mb-2;
+  }
+  
+  /* เพิ่มขนาดให้กับ ReactDatePicker สำหรับมือถือ */
+  .react-datepicker__day-name, 
+  .react-datepicker__day, 
+  .react-datepicker__time-name {
+    @apply w-8 h-8 leading-loose !important;
+  }
+  
+  /* ขยายขนาดของตัวเลือกเวลาให้ใหญ่ขึ้นสำหรับการกดบนมือถือ */
+  .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item {
+    @apply h-auto py-2 !important;
+  }
+}
+
+/* ปรับปรุงสีธีมเข้มแบบพิเศษสำหรับฟอร์มบนมือถือ */
+@media (prefers-color-scheme: dark) {
+  input, 
+  textarea, 
+  select, 
+  .react-datepicker__input-container input {
+    @apply bg-gray-800 border-gray-600 text-white placeholder-gray-400;
+  }
+  
+  /* เพิ่มความชัดเจนให้ข้อความบนพื้นสีเข้ม */
+  label, 
+  .text-gray-700 {
+    @apply text-gray-300;
+  }
+  
+  /* เพิ่มคอนทราสต์ให้ข้อความสีแดงในโหมดมืด */
+  .text-red-600 {
+    @apply text-red-400;
+  }
+}
+
+/* สไตล์เพิ่มเติมสำหรับปุ่มดำเนินการบนธีมเข้ม */
+.action-button {
+  @apply inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 
+         shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 
+         bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 
+         focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-500
+         transition-colors;
+}
+
+.action-button-active {
+  @apply border-primary-600 dark:border-primary-500 text-primary-700 dark:text-primary-400 
+         bg-primary-50 dark:bg-primary-900/30;
+}
+
+.action-button-primary {
+  @apply border-transparent text-white bg-blue-600 dark:bg-blue-700 
+         hover:bg-blue-700 dark:hover:bg-blue-600 focus:ring-blue-500;
+}
+
+/* สำหรับปุ่มไอคอนบนอุปกรณ์มือถือ */
+.action-icon {
+  @apply h-5 w-5;
+}
+
+/* แสดงเฉพาะไอคอนบนหน้าจอเล็ก และทั้งไอคอนและข้อความบนหน้าจอใหญ่ */
+.action-text {
+  @apply hidden sm:inline ml-1.5;
+}
+
+/* เพิ่ม tooltip สำหรับปุ่มไอคอน */
+[data-tooltip]:hover::before {
+  content: attr(data-tooltip);
+  @apply absolute -top-10 left-1/2 transform -translate-x-1/2 px-2 py-1 
+         text-xs text-white bg-gray-800 dark:bg-gray-700 rounded shadow-lg 
+         whitespace-nowrap opacity-0 transition-opacity duration-200 ease-in-out;
+  z-index: 10;
+}
+
+[data-tooltip]:hover::before {
+  @apply opacity-100;
+}
+
+/* ปรับค่า tooltip ให้แสดงเฉพาะบนหน้าจอเล็ก */
+@media (min-width: 640px) {
+  [data-tooltip]:hover::before {
+    @apply hidden;
+  }
+}
